@@ -13,6 +13,8 @@ Route::get('/profile/{id}', [ViewJobController::class, 'show'])->middleware(['au
 Route::post('/change-status/{app_no}', [ViewJobController::class, 'changeStatus'])->middleware(['auth', 'verified'])->name('change.status');
 Route::get('/shortlisted', [ViewJobController::class, 'shortlisted'])->middleware(['auth', 'verified'])->name('shortlisted');
 
+Route::get('/debug', [ViewJobController::class, 'debug']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

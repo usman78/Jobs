@@ -57,10 +57,12 @@ class ViewJobController extends Controller
 
     public function debug()
     {
-        $jobs = Education::orderBy('app_no', 'asc')->get();
+        // $app = Job::where('app_no', 184)->first();
+
+           $jobs = Job::where('job_id', 1004)->get();
         if($jobs) {
             return response()->json($jobs);
         }
-        return response()->json(['message' => 'No jobs found']);
+        // return response()->json(['message' => $app->job_id]);
     }
 }

@@ -40,15 +40,15 @@
                                         </td>
                                         <td>{{date('d-m-Y', strtotime($job->created_at))}}</td>
                                         @if ($job->is_profile_comp == 'N')
-                                            <td><span class="badge bg-warning text-dark">No</span></td>
+                                            <td><span class="badge bg-warning text-dark">No</span></td> 
                                             <td>
-                                                <a href="javascript:void(0)" class="services-price">
+                                                <a href="{{route('profile', $job->app_no)}}" class="services-price view-button" id="view-button">
                                                     <div class="services-price-wrap ms-auto">
                                                         <p class="services-price-text mb-0">View</p>
                                                         <div class="services-price-overlay"></div>
                                                     </div>
                                                 </a>
-                                            </td>    
+                                            </td>
                                         @else
                                             <td><span class="badge bg-success">Yes</span></td>
                                             <td>
@@ -60,6 +60,7 @@
                                                 </a>
                                             </td>
                                         @endif
+
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -71,10 +72,27 @@
     </div>
 </x-app-layout>
 <script>
+
+
+
     $(document).ready(function () {
-    // Check if DataTable is initialized
-        console.log("Initializing DataTable...");
-        
+        const viewBtn = document.getElementById('view-button');
+
+        document.querySelectorAll('.view-button').forEach(function (viewBtn){
+            viewBtn.addEventListener('click', function (event){
+                event.preventDefault();
+                Swal.fire({
+                    title: "Incomplete Profile",
+                    text: "Are you sure you want to open an incomplete profile?",
+                    icon: "warning",
+                    showCancelButton: true
+                }).then((result) => {
+                    if (result.isConfirmed){
+                        window.location.href = viewBtn.href;
+                    }
+                })
+            });
+        });
         let table = $('#applicants-data').DataTable({
             responsive: true,
             order: 'desc',
@@ -82,8 +100,6 @@
             searching: true, // Ensure searching is enabled
             info: true,
         });
-
-        console.log("DataTable initialized:", table);
 
         // Check if the search event is being triggered
         $('#dt-search-0').on('keyup', function () {

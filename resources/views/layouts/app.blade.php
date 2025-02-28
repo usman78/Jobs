@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>JOBS AFMDC</title>
+        <link rel="icon" type="image/x-icon" href="{{asset('/images/logo.png')}}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -29,6 +30,13 @@
         <link rel="stylesheet" href="{{ asset('css/photoviewer.css') }}">
 
         <style>
+            h3 {
+                font-size: x-large !important;
+            }
+            h4 {
+                font-size: 1.25rem !important;
+                font-weight: 500 !important;
+            }
             .section-title-wrap {
                 background-color: #294a70;
             }
@@ -113,6 +121,28 @@
             .profile-small-title {
                 width: 250px;
             }
+
+            .profile-title {
+                background-color: white;
+            }
+
+            .section-title-wrap {
+                padding: 5px 30px;
+                border-radius: 15px;
+            }
+
+            .site-footer {
+                margin-top: 70px;
+                border: 3px solid var(--border-color);
+            }
+
+            .bc {
+                margin-left: 30px;
+            }
+
+            .photoviewer-button svg {
+                display: block;
+            }
                         
 
         </style> 
@@ -149,6 +179,7 @@
             <main>
                 {{ $slot }}
             </main>
+            @include('layouts.footer')
         </div>
         <script>
             // Overall Js

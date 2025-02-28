@@ -56,7 +56,7 @@
                 justify-content: flex-start;
                 align-items: center;
                 padding-top: 20px;
-                paddingleft: 10px;
+                padding-left: 10px;
             }
 
             .dt-layout-cell.dt-layout-start {

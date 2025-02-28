@@ -1,26 +1,28 @@
-@extends('app')
-@section('content')
-
+<x-app-layout>
     <div class="container">
+        <nav aria-label="breadcrumb" class="bc mt-3">
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+            </ol>
+        </nav>
         <div class="row">
-            <div class="col-12">
+            <div class="col-6">
                 <div class="profile-thumb">
                     <div class="profile-title">
-                        <h4 class="mb-0">Application Status</h4>
+                        <h3 class="mb-0">Application Status</h3>
                     </div>
 
                     <div class="profile-body">
                         <p>
                             <span class="profile-small-title">Status</span> 
-                            <span id="selection-status">  
-                                @if($job->status == 'C')
-                                    Cancelled
-                                @elseif($job->status == NULL)
-                                    Pending Review
-                                @elseif($job->status == 'S')
-                                    Shortlisted
-                                @endif
-                            </span>
+                            @if($job->status == 'C')
+                                <span class="badge badge-danger" id="selection-status" style="background-color: crimson"> Cancelled </span>
+                            @elseif($job->status == NULL)
+                                <span class="badge badge-warning" id="selection-status" style="background-color: dodgerblue"> Pending Review </span>
+                            @elseif($job->status == 'S')
+                                <span class="badge badge-pill badge-success" id="selection-status" style="background-color: cadetblue"> Shortlisted </span>
+                            @endif
                         </p>
                         <p>
                             <span class="profile-small-title">Selection</span> 
@@ -36,105 +38,12 @@
                     </div>
                 </div>
             </div>
-        </div>    
-            {{-- <div class="col-lg-4 col-md-6 col-12 ps-lg-0">
-                <div class="contact-info d-flex flex-column">
-                    <strong class="site-footer-title d-block mb-3">Applicant Name</strong>
+            <div class="col-6 section-title-wrap d-flex justify-content-center align-items-center mb-4">
+                <h2 class="text-white me-4 mb-0" style="letter-spacing: normal; font-size: x-large;">{{$job->app_name}}</h2>
 
-                    <p class="mb-2">{{ $job->app_name }}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">Father Name</strong>
-
-                    <p>{{$job->f_name}}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">Mobile Number</strong>
-
-                    <p>{{$job->mbl_no}}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">Email Address</strong>
-
-                    <p>{{$job->email}}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">Date of Birth</strong>
-
-                    <p class="mb-0">{{date('d-m-Y', strtotime($job->dob))}}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">CNIC</strong>
-
-                    <p class="mb-0">{{$job->cnic}}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">CITY</strong>
-
-                    <p class="mb-0">{{$job->city}}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">ADDRESS</strong>
-
-                    <p class="mb-0">{{$job->per_adrr}}</p>
-                </div>
+                <img src="{{asset('applications/').'/'.$job->app_no.'/'.$job->profile_pic}}" class="avatar-image img-fluid" alt="candidate-picture">
             </div>
-            <div class="col-lg-4 col-md-6 col-12 ps-lg-0">
-                <div class="contact-info d-flex flex-column">
-                    <strong class="site-footer-title d-block mb-3">Application Date</strong>
-
-                    <p class="mb-2">{{ date('d-m-Y', strtotime($job->created_at)) }}</p>
-
-                    <strong class="site-footer-title d-block mb-3">Application For</strong>
-
-                    <p class="mb-2">{{ $job->designation?->desg_short ?? 'CV Bank' }}</p>
-
-                    <strong class="site-footer-title d-block mb-3">Expected Salary</strong>
-
-                    <p class="mb-2">{{ $job->expt_sal }}</p>
-
-                    <strong class="site-footer-title d-block mb-3">Last Salary</strong>
-
-                    <p class="mb-2">{{ number_format($job->last_sal) }}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">Religion</strong>
-
-                    <p>{{$job->app_religion}}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">Sect</strong>
-
-                    <p>{{$job->app_sect}}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">cast</strong>
-
-                    <p class="mb-0">{{$job->app_cast}}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">CNIC</strong>
-
-                    <p class="mb-0">{{$job->cnic}}</p>
-
-                    <strong class="site-footer-title d-block mt-4 mb-3">CITY</strong>
-
-                    <p class="mb-0">{{$job->city}}</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-12 ps-lg-0">
-                <div class="contact-info d-flex flex-column">
-                    <strong class="site-footer-title d-block mb-3">PMDC Number</strong>
-
-                    <p class="mb-2">{{$job->pmdc_no ?? 'N/A' }}</p>
-
-                    <strong class="site-footer-title d-block mb-3">Profile Completion</strong>
-
-                    <p class="mb-2">{{ $job->is_profile_comp == 'Y' ? 'Yes' : 'No' }}</p>
-
-                    <strong class="site-footer-title d-block mb-3">Application Status</strong>
-
-                    <p class="mb-2">
-                        @if($job->status == 'C')
-                            Closed
-                        @elseif($job->status == NULL)
-                            Open
-                        @elseif($job->status == 'S')
-                            Shortlisted
-                        @endif
-                    </p>
-                </div>
-            </div>
-        </div> --}}
+        </div>  
         <div class="row mt-5">
             <div class="col-lg-6 col-12">
                 <div class="services-thumb">
@@ -179,7 +88,7 @@
                 </div>
             </div>
             <div class="col-lg-6 col-12">
-                <div class="services-thumb">
+                <div class="services-thumb" style="max-height: 1098px;">
                     <div class="d-flex flex-wrap align-items-center border-bottom mb-4 pb-3">
                         <h3 class="mb-0">Application Data</h3>
                     </div>
@@ -211,19 +120,8 @@
 
                     <p class="mb-2">{{ $job->is_profile_comp == 'Y' ? 'Yes' : 'No' }}</p>
 
-                    {{-- <strong class="site-footer-title d-block mb-3">Application Status</strong>
-
-                    <p class="mb-2">
-                        @if($job->status == 'C')
-                            Cancelled
-                        @elseif($job->status == NULL)
-                            Review Pending
-                        @elseif($job->status == 'S')
-                            Shortlisted
-                        @endif
-                    </p> --}}
                     <div class="d-flex flex-wrap align-items-center border-top border-bottom mb-4 mt-4">
-                        <h5 class="mt-2 d-block">Applicant Documents</h5>
+                        <h4 class="mt-2 d-block">Applicant Documents</h4>
                     </div>
                     <p class="mb-1" style="display: inline-block;">
                         <a class="custom-btn btn" href="{{ asset('applications/'.$job->app_no.'/'.$job->cv_id) }}" target="_blank">View CV</a>  
@@ -235,7 +133,7 @@
                         <a class="custom-btn btn" href="{{ asset('applications/'.$job->app_no.'/'.$job->cnic_back) }}" target="_blank">CNIC Back</a>
                     </p>
                     <div class="d-flex flex-wrap align-items-center border-top border-bottom mb-4 mt-4">
-                        <h5 class="mt-2 d-block">Educational Documents</h5>
+                        <h4 class="mt-2 d-block">Educational Documents</h4>
                     </div>
                     @if ($job->education)
                         @foreach ($job->education as $edu)
@@ -255,8 +153,6 @@
             </div>
         </div>
     </div>
-
-@endsection
 
 @push('script')
 
@@ -478,3 +374,6 @@ $(document).ready(function () {
 
 
 @endpush
+
+</x-app-layout>
+

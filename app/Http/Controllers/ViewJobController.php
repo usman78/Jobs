@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\Designation;
 use App\Models\Vacancy;
+use Illuminate\Support\Facades\DB;
 
 class ViewJobController extends Controller
 {
@@ -16,6 +17,18 @@ class ViewJobController extends Controller
             ->orWhere('status', null)
             ->orderBy('app_no', 'desc')->get();
         return view('dashboard', ['jobs' => $jobs]);
+    }
+
+    public function summaryDashboard()
+    {
+        $vacancy_jobs = Vacancy::withCount('jobs')->get();
+        // $open_jobs = Job::where('job_id', 9999)->withCount('designation')->get();
+        $open_jobs = DB::select("SELECT p.desg_short, COUNT(j.job_id) AS application_count
+            FROM online_job_mst j
+            JOIN pay_desig p ON j.position_id = p.desg_code
+            WHERE j.job_id = 9999
+            GROUP BY p.desg_short");
+        return view('summary', ['vacancy_jobs' => $vacancy_jobs, 'open_jobs' => $open_jobs]);   
     }
 
     public function show($id)
@@ -53,6 +66,17 @@ class ViewJobController extends Controller
     public function shortlisted(){
         $jobs = Job::where('status', 'S')->get();
         return view('dashboard', ['jobs' => $jobs]);
+    }
+
+    public function designation($id){
+        if($id != 9999){
+            $position = Vacancy::where('job_id', $id)->first();
+            return view('dashboard', ['position' => $position]);
+        }
+        else {
+            $position = Designation::where('desg_code', $id)->first();
+            return view('dashboard', ['position' => $position]);
+        }
     }
 
     public function debug()

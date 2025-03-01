@@ -144,6 +144,7 @@
                 display: block;
             }
                         
+            @stack('style')
 
         </style> 
 
@@ -160,6 +161,7 @@
         <script src="{{asset('js/custom.js')}}"></script>
         <script src="{{asset('js/photoviewer.js')}}"></script>
         <script src="{{asset('js/sweetalert2.all.min.js')}}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">

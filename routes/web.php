@@ -9,9 +9,11 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [ViewJobController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('summary-dashboard', [ViewJobController::class, 'summaryDashboard'])->middleware(['auth', 'verified'])->name('summary.dashboard');
 Route::get('/profile/{id}', [ViewJobController::class, 'show'])->middleware(['auth', 'verified'])->name('profile');
 Route::post('/change-status/{app_no}', [ViewJobController::class, 'changeStatus'])->middleware(['auth', 'verified'])->name('change.status');
 Route::get('/shortlisted', [ViewJobController::class, 'shortlisted'])->middleware(['auth', 'verified'])->name('shortlisted');
+Route::get('/designation/{id}', [ViewJobController::class, 'designation'])->middleware(['auth', 'verified'])->name('designation');
 
 Route::get('/debug', [ViewJobController::class, 'debug']);
 

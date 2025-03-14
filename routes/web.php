@@ -13,7 +13,7 @@ Route::get('summary-dashboard', [ViewJobController::class, 'summaryDashboard'])-
 Route::get('/profile/{id}', [ViewJobController::class, 'show'])->middleware(['auth', 'verified'])->name('profile');
 Route::post('/change-status/{app_no}', [ViewJobController::class, 'changeStatus'])->middleware(['auth', 'verified'])->name('change.status');
 Route::get('/shortlisted', [ViewJobController::class, 'shortlisted'])->middleware(['auth', 'verified'])->name('shortlisted');
-Route::get('/designation/{id}', [ViewJobController::class, 'designation'])->middleware(['auth', 'verified'])->name('designation');
+Route::get('/designation-jobs/{position}', [ViewJobController::class, 'designationJobs'])->middleware(['auth', 'verified'])->name('designation.jobs');
 
 Route::get('/debug', [ViewJobController::class, 'debug']);
 

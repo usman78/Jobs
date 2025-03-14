@@ -22,7 +22,6 @@ class ViewJobController extends Controller
     public function summaryDashboard()
     {
         $vacancy_jobs = Vacancy::withCount('jobs')->get();
-        // $open_jobs = Job::where('job_id', 9999)->withCount('designation')->get();
         $open_jobs = DB::select("SELECT p.desg_short, COUNT(j.job_id) AS application_count
             FROM online_job_mst j
             JOIN pay_desig p ON j.position_id = p.desg_code
@@ -68,15 +67,17 @@ class ViewJobController extends Controller
         return view('dashboard', ['jobs' => $jobs]);
     }
 
-    public function designation($id){
-        if($id != 9999){
-            $position = Vacancy::where('job_id', $id)->first();
-            return view('dashboard', ['position' => $position]);
+    public function designationJobs($position){
+        $position = str_replace('-', '/', $position);
+        $job_id = Vacancy::select('job_id')->where('job_description', $position)->get();
+        if($job_id->count() === 1){
+            $jobs = Job::whereIn('job_id', $job_id)->get();
         }
         else {
-            $position = Designation::where('desg_code', $id)->first();
-            return view('dashboard', ['position' => $position]);
+            $job_id = Designation::select('desg_code')->where('desg_short', $position)->get();
+            $jobs = Job::whereIn('position_id', $job_id)->get();
         }
+        return view('dashboard', ['jobs' => $jobs]);
     }
 
     public function debug()
